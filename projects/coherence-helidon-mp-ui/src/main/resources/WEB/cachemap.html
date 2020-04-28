@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Oracle Coherence Cache</title>
+</head>
+
+
+<style>
+  body {
+    font-family: Arial;
+  	font-size: 15pt;
+  }
+  input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 15pt;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  input[type=text] {
+    border: 1px solid grey;
+    border-radius: 4px;
+    height: 30px;
+    font-size:15pt;
+  }
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  /* define table to use full width of page, will resize with browser page*/
+	.cacheTable{
+		width:100%;
+		border-collapse:collapse;
+	}
+	.cacheTable td{
+	   padding:7px; border:#4e95f2 1px solid;
+	}
+	/* define background color for odd rows */
+	.cacheTable tr:nth-child(odd){
+		background: #b8d1f4;
+	}
+	/*  define background color for even rows  */
+	.cacheTable tr:nth-child(even){
+		background: #dae5f1;
+	}
+</style>
+
+
+
+<body>
+
+<p id="result"></p>
+
+<div id="myForm">
+
+<h1>Oracle Coherence Cache</h1>
+<hr>
+
+<h2>Add new entry</h2>
+
+    <form name="addForm">
+      <table style="with: 50%">
+        <tr>
+          <td>Key:</td>
+          <td><input type="text" name="addKey" onfocus="this.value=''"></td>
+        </tr>
+        <tr>
+          <td>Value:</td>
+          <td><input type="text" name="addVal" onfocus="this.value=''"> </td>
+          <td><input type="button" id="add" value="Add Entry" onclick="addEntry()"/></td>
+        </tr>
+      </table>
+    </form>
+
+  <br>
+
+  <hr>
+
+  <h2>Delete an entry</h2>
+
+  <form name="deleteForm">
+		<table style="with: 50%">
+			<tr>
+				<td>Key:</td>
+				<td><input type="text" name="deleteKey" onfocus="this.value=''"></td>
+        <td><input type="button" id="delete" value="Delete Entry" onclick="deleteEntry()"></td>
+			</tr>
+    </table>
+    <br>
+  </form>
+
+
+  <h2>Delete all entries</h2>
+
+  <input type="button" id="deleteAll" value="Clear Cache" onclick="deleteCache()">
+
+
+  <br><br>
+  <hr>
+
+
+  <h2>Return one entry</h2>
+
+  <form name="getForm">
+		<table style="with: 50%">
+			<tr>
+				<td>Key:</td>
+				<td><input type="text" name="getKey" onfocus="this.value=''"></td>
+        <td><input type="button" id="get" value="Get Entry" onclick="getEntry()"></td>
+			</tr>
+    </table>
+    <br>
+  </form>
+
+<h2>Display cache content</h2>
+
+  <input type="button" id="display" value="Display Cache" onclick="getAll()">
+
+</body>
+
+</html>
+
+<br> <br>
+<hr>
+
+<p id="header"></p>
+
+<table class="cacheTable" id="cacheTable"  border="1"> </table>
+
+<p id="entryCount"></p>
+
+
+
+<script>
+
+
+function addEntry() {
+
+  var formKey = document.forms["addForm"]["addKey"].value;
+  var formVal = document.forms["addForm"]["addVal"].value;
+
+  // test for an empty field
+	if (formKey == "") {
+		alert("Must enter a Key !");
+    document.forms["addForm"]["addKey"].focus();
+  	return false;
+  }
+
+  if (formVal == "") {
+    alert("Must enter a Value !");
+    document.forms["addForm"]["addVal"].focus();
+    return false;
+  }
+
+  var params = '{"key": ' + '"' + formKey + '"' + ", " + '"value": ' + '"' + formVal + '"' + "}";
+  var URL = 'http://localhost:8082/coherence/add';
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", URL, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(params);
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("Successlly Added !!");
+    }
+  }
+
+  document.addForm.reset();
+  getAll();
+
+}
+
+
+function deleteEntry() {
+
+  var formKey = document.forms["deleteForm"]["deleteKey"].value;
+
+  // test for an empty field
+  if (formKey == "") {
+  	alert("Must enter a Key !");
+    document.forms["deleteForm"]["deleteKey"].focus();
+  	return false;
+  }
+
+  var xhttp = new XMLHttpRequest();
+  var URL = 'http://localhost:8082/coherence/delete/' + formKey;
+
+  xhttp.open("DELETE", URL, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("Successlly Deleted !!");
+    }
+  }
+
+  document.deleteForm.reset();
+  getAll();
+
+}
+
+
+
+function deleteCache() {
+
+  var xhttp = new XMLHttpRequest();
+  var URL = 'http://localhost:8082/coherence/deleteall';
+
+  xhttp.open("DELETE", URL, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("Successlly Deleted All Entries !!");
+    }
+  }
+
+  document.deleteForm.reset();
+  getAll();
+
+}
+
+
+
+
+function getEntry() {
+
+  var formKey = document.forms["getForm"]["getKey"].value;
+  var table = document.getElementById("cacheTable");
+
+  // test for an empty field
+  if (formKey == "") {
+  	alert("Must enter a Key !");
+    document.forms["getForm"]["getKey"].focus();
+  	return false;
+  }
+
+  var xhttp = new XMLHttpRequest();
+  var URL = 'http://localhost:8082/coherence/get/' + formKey;
+
+  xhttp.open("GET", URL, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+
+      var data = JSON.parse(xhttp.responseText);
+
+      if (!data.value) {
+
+        alert("No Such Entry !!");
+      } else {
+
+        table="<tr><td><b>Key</b></td><td><b>Value</b></td></tr>";
+        table += "<tr><td>" + data.key + "</td><td>" + data.value + "</td></tr>";
+
+        document.getElementById("cacheTable").innerHTML = table;
+        document.getElementById("entryCount").innerHTML = "";
+
+        //document.getElementById("result").innerHTML = xhttp.responseText;
+      }
+    }
+  }
+
+  document.getForm.reset();
+  
+}
+
+
+function getAll()
+{
+  var rowCount = 0;
+  var table = document.getElementById("cacheTable");
+
+  var URL = 'http://localhost:8082/coherence/getall';
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", URL, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send();
+
+  xhttp.onreadystatechange = function() {
+
+    if (this.readyState == 4 && this.status == 200) {
+
+      var data = JSON.parse(xhttp.responseText);
+
+      table="<tr><td><b>Key</b></td><td><b>Value</b></td></tr>";
+
+      data.forEach(getall => {
+        table += "<tr><td>" + getall.key + "</td><td>" + getall.value + "</td></tr>";
+        rowCount++;
+      })
+
+      document.getElementById("header").innerHTML = "<h2>Cache Content</h2>"
+      document.getElementById("entryCount").innerHTML = "<h3>Number of entries = " + rowCount + "</h3>"
+      document.getElementById("cacheTable").innerHTML = table;
+
+    }
+  }
+}
+
+</script>
