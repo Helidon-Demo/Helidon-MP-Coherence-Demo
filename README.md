@@ -25,12 +25,10 @@ To run the demonstration application, you must have the following software insta
 Ensure the following environment variable is set in your configuration:
 
 1. JAVA_HOME - This variable must point to the location of the JDK version supported by the Oracle Coherence version that you use. Ensure that the path is set accordingly:
-
   ```
   export PATH=$JAVA_HOME/bin:$PATH
   ```
 2. COHERENCE_HOME - This variable must point to the Coherence directory of your Coherence installation. This is required for starting the Coherence servers.
-
   ```
   export COHERENCE_HOME=/opt/Oracle/Middleware/Oracle_Home/Coherence
   ```
@@ -42,7 +40,7 @@ Ensure the following environment variable is set in your configuration:
 Caches are defined in a cache configuration deployment descriptor and are referred to by name within an application. The cache configuration file allows changes to be made to a cache without having to change an application's code. The following cache configuration defines a basic distributed cache which is mapped to the cache name '`demo`'.
 
 
-The cache is defined in an XML file named `example-config.xml` and we have one defined for you already [example-config.xml](https://github.com/kwanwan/Helidon-MP-Coherence-Demo/blob/master/config/src/main/localjars/example-config.xml):
+The cache is defined in an XML file named `example-config.xml` and we have one defined for you already [example-config.xml](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/example-config.xml):
 
 ```
 <?xml version="1.0"?>
@@ -81,7 +79,7 @@ Caches are hosted on a Coherence cluster. At run time, any JVM process that is r
 The cache server, by default, is configured to store cache data.
 The demo cluster uses an operational override file to modify the out-of-box default cluster configuration. In particular, the default configuration is modified to create a private cluster which ensures that the two processes do not attempt to join an existing Coherence cluster that may be running on the network. The default configuration is also modified to load the `example-config.xml` cache configuration file instead of the default cache configuration file.
 
-To configure and start the demo cluster you will need a `tangosol-coherence-override.xml` which we have defined one for you already. [tangosol-coherence-override.xml](https://github.com/kwanwan/Helidon-MP-Coherence-Demo/blob/master/config/tangosol-coherence-override.xml).
+To configure and start the demo cluster you will need a `tangosol-coherence-override.xml` which we have defined one for you already. [tangosol-coherence-override.xml](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/tangosol-coherence-override.xml).
 
 ```
 <?xml version='1.0'?>
@@ -119,7 +117,7 @@ But real world scenarios, you will need to replace `address` with values that ar
 
 ### Start The Coherence Cache Server ###
 
-Before you start a cache server, you need to download the [`example-config.xml`](https://github.com/kwanwan/Helidon-MP-Coherence-Demo/blob/master/config/src/main/localjars/example-config.xml) and [`tangosol-coherence-override.xml`](https://github.com/kwanwan/Helidon-MP-Coherence-Demo/blob/master/config/tangosol-coherence-override.xml). into a working directory or copy and paste from above.
+Before you start a cache server, you need to download the [`example-config.xml`](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/example-config.xml) and [`tangosol-coherence-override.xml`](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/tangosol-coherence-override.xml). into a working directory or copy and paste from above.
 
 From a command prompt, start a cache server instance in the same directory where the `example-config.xml` and `tangosol-coherence-override.xml` configuration files are downloaded; using the DefaultCacheServer class and include the location of the `coherence.jar` library as a Java -cp option.
 
@@ -170,20 +168,23 @@ To verify the cache:
   ```
   java -cp "$COHERENCE_HOME/lib/coherence.jar:." -Dcoherence.distributed.localstorage=false com.tangosol.net.CacheFactory
   ```
+
   The cache factory instance starts and becomes a member of the cluster and returns a command prompt for the command-line tool similar to below.
+
   ```
   2020-04-27 15:56:15.233/5.344 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=Invocation:Management, member=2): Service Management joined the cluster with senior service member 1
   2020-04-27 15:56:15.303/5.414 Oracle Coherence GE 12.2.1.3.0 <Info> (thread=main, member=2): Loaded Reporter configuration from "jar:file:/Users/Kwan/opt/oracle/wls213/coherence/lib/coherence.jar!/reports/report-group.xml"
 
   Map (?):
   ```
+
   Please take note of the cluster joining as `member=2`.
 
 2. At the command-line tool command prompt, get the `demo` cache using the cache command:
-
   ```
   cache demo
   ```
+
   You cache view should be in demo as below:
   ```
   Map (demo):
@@ -196,14 +197,12 @@ To verify the cache:
   The command returns null as there is nothing in the cache yet.
 
   Let's load an entry into the cache using the `put` command with first parameter as the key and the value as the second parameter.
-
   ```
   Map (demo): put k1 "Hello World!"
   null
   ```
 
 4. Now, retrieve the contents of the cache again using the list command.
-
   ```
   Map (demo): list
   k1 = Hello World!
@@ -231,7 +230,6 @@ The demo application consists of two services:
   ```
 
 2.  After cloning the project, change directory to the project folder, for example
-
   ```
   cd projects
   ```
@@ -249,13 +247,11 @@ The demo application consists of two services:
 We will use Maven to build the Helidon services.
 
 1. Change directory to the `coherence-helidon-mp-rest` folder.
-
   ```
   cd coherence-helidon-mp-rest
   ```
 
 2. Copy the Coherence library `coherence.jar` to the `localjar` folder of the project - you should have the location to the jar file from your Coherence installation/configuration step.
-
   ```
   cp $COHERENCE_HOME/lib/coherence.jar localjars/
   ```
@@ -266,7 +262,6 @@ We will use Maven to build the Helidon services.
   ```
 
   You should see the BUILD SUCCESS message for installing the library similar to below:
-
   ```
   [INFO]
   [INFO] ------------------------------------------------------------------------
@@ -286,7 +281,6 @@ We will use Maven to build the Helidon services.
   ```
 
 4. While still in the `coherence-helidon-mp-rest` folder, we will build the project with the following Maven command:
-
   ```
   mvn package -DskipTests
   ```
@@ -305,21 +299,18 @@ We will use Maven to build the Helidon services.
   ```
 
 5. Copy the 2 Coherence config files to the target folder - you have previously obtained the Coherence config files during the configuration of your coherence cluster. These files are also available under the config directory of this repository. Assuming you're inside the `coherence-helidon-mp-rest` folder:
-
   ```
   cp ../../config/example-config.xml target/
   cp ../../config/tangosol-coherence-override.xml target/
    ```
 
 6. Starting the Helidon MP Coherence REST Microservice.
-
   ```
   cd target
   java -jar -Dcoherence.distributed.localstorage=false -Dtangosol.coherence.override=./tangosol-coherence-override.xml coherence-helidon-mp-rest.jar
   ```
 
   If successful, you should see the service available at port 8082.
-
   ```
   2020.04.27 17:11:55 INFO io.helidon.common.HelidonFeatures Thread[main,5,main]: Helidon MP 2.0.0-M2 features: [CDI, Config, FaultTolerance, Health, JAX-RS, Metrics, Security, Server, Tracing]
   http://localhost:8082/coherence
@@ -333,19 +324,16 @@ We will use Maven to build the Helidon services.
 The steps for building and starting the frontend Microservice is simlar to the REST service above. We will use Maven to build the service.
 
 1. Change directory to the `coherence-helidon-mp-ui` folder.
-
   ```
   cd coherence-helidon-mp-ui
   ```
 
 2. We will build the project with the following Maven command:
-
   ```
   mvn package -DskipTests
   ```
 
   You should see the BUILD SUCCESS Message.
-
   ```
   [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-ui ---
   [INFO] Building jar: /home/opc/coherence-helidon-mp-ui/target/coherence-helidon-mp-ui.jar
@@ -358,14 +346,12 @@ The steps for building and starting the frontend Microservice is simlar to the R
   ```
 
 3. Starting the Helidon MP Coherence REST Microservice.
-
   ```
   cd target
   java -jar coherence-helidon-mp-ui.jar
   ```
 
   If successful, you should see the service available at port 8080.
-
   ```
   INFO: Server initialized on http://localhost:8080 (and all other host addresses) in 3460 milliseconds.
   Start server: 318
@@ -382,7 +368,6 @@ In this sample application you can upload new entries to the cache as key value 
 The content of the cache will be refreshed inside a table at the bottom of the page after each action. However, if the table is not refreshed automatically, please click on the **Display Cache** button to refresh it manually.
 
 1. From a browser, run the frontend application by loading the cachemap.html file using the following URL:
-
   ```
   http://localhost:8080/cachemap/cachemap.html
   ```
@@ -396,7 +381,6 @@ The content of the cache will be refreshed inside a table at the bottom of the p
   ![alt text](images/image03.png)
 
   When the **Display Cache** button is clicked, it makes a AJAX call to the REST Microservice. The REST Microservice will instantiate a Coherence session and joins the running `demo` cluster as member 3. You should see output in the first cache server instance you started using the **DefaultCacheServer** class similar to below:
-
   ```
   2020-04-27 17:40:10.688/60.004 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=DistributedCache, member=2): Member 3 joined Service DistributedCache with senior member 1
   ```
@@ -433,13 +417,11 @@ To verify the cache:
 1. Go to the terminal of your cache factory command-line tool. You should still have this opened.
 
 2. At the command-line tool command prompt, retrieve the contents of the cache using the list command.
-
   ```
   list
   ```
 
 3. The content of the cache should be the same as displayed in the Helidon frontend service.
-
   ```
   Map (demo): list
   k2 = Bye!
