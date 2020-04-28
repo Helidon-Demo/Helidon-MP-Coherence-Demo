@@ -164,21 +164,21 @@ To verify the cache:
 
 1.  From a command prompt, start a standalone cache factory instance using the CacheFactory class and include the location of the `coherence.jar` library and the configuration files as a Java `-cp` option.
 
-  For example:
-  ```
-  java -cp "$COHERENCE_HOME/lib/coherence.jar:." -Dcoherence.distributed.localstorage=false com.tangosol.net.CacheFactory
-  ```
+    For example:
+    ```
+    java -cp "$COHERENCE_HOME/lib/coherence.jar:." -Dcoherence.distributed.localstorage=false com.tangosol.net.CacheFactory
+    ```
 
-  The cache factory instance starts and becomes a member of the cluster and returns a command prompt for the command-line tool similar to below.
+    The cache factory instance starts and becomes a member of the cluster and returns a command prompt for the command-line tool similar to below.
 
-  ```
-  2020-04-27 15:56:15.233/5.344 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=Invocation:Management, member=2): Service Management joined the cluster with senior service member 1
-  2020-04-27 15:56:15.303/5.414 Oracle Coherence GE 12.2.1.3.0 <Info> (thread=main, member=2): Loaded Reporter configuration from "jar:file:/Users/Kwan/opt/oracle/wls213/coherence/lib/coherence.jar!/reports/report-group.xml"
+    ```
+    2020-04-27 15:56:15.233/5.344 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=Invocation:Management, member=2): Service Management joined the cluster with senior service member 1
+    2020-04-27 15:56:15.303/5.414 Oracle Coherence GE 12.2.1.3.0 <Info> (thread=main, member=2): Loaded Reporter configuration from "jar:file:/Users/Kwan/opt/oracle/wls213/coherence/lib/coherence.jar!/reports/report-group.xml"
 
-  Map (?):
-  ```
+    Map (?):
+    ```
 
-  Please take note of the cluster joining as `member=2`.
+    Please take note of the cluster joining as `member=2`.
 
 2. At the command-line tool command prompt, get the `demo` cache using the cache command:
   ```
