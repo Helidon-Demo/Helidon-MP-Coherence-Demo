@@ -181,32 +181,37 @@ To verify the cache:
     Please take note of the cluster joining as `member=2`.
 
 2. At the command-line tool command prompt, get the `demo` cache using the cache command:
-  ```
-  cache demo
-  ```
 
-  You cache view should be in demo as below:
-  ```
-  Map (demo):
-  ```
+    ```
+    cache demo
+    ```
+
+    You cache view should be in demo as below:
+
+    ```
+    Map (demo):
+    ```
 
 3. At the command-line tool command prompt, retrieve the contents of the cache using the list command.
-  ```
-  list
-  ```
-  The command returns null as there is nothing in the cache yet.
 
-  Let's load an entry into the cache using the `put` command with first parameter as the key and the value as the second parameter.
-  ```
-  Map (demo): put k1 "Hello World!"
-  null
-  ```
+    ```
+    list
+    ```
+    The command returns null as there is nothing in the cache yet.
+
+    Let's load an entry into the cache using the `put` command with first parameter as the key and the value as the second parameter.
+
+    ```
+    Map (demo): put k1 "Hello World!"
+    null
+    ```
 
 4. Now, retrieve the contents of the cache again using the list command.
-  ```
-  Map (demo): list
-  k1 = Hello World!
-  ```
+
+    ```
+    Map (demo): list
+    k1 = Hello World!
+    ```
 
 #### We now have a working Coherence cache with two members in a cluster. ####
 
@@ -215,6 +220,7 @@ To verify the cache:
 ## Deploying and Run The Demo Web Application ##
 
 The demo application consists of two services:
+
 - A Helidon MP Coherence Frontend Service - using the built in Web Server to serve a HTML page with JavaScript. The UI provides a form for you to add, delete and retrieve key value pairs to and from the cache. AJAX calls are made from the embedded JavaScript in the HTML page to the Helidon MP Coherence REST Service.
 
 - A Helidon MP Coherence REST Service - a RESTful Java application using Coherence libraries to connect and access a Coherence Cache. RESTful APIs are handled asynchronously by the defined helper functions. A Coherence session is created and joins the running `demo` cluster as member 3. It requires the `example-config.xml` and `tangosol-coherence-override.xml` configurations used previously to start your cluster.
@@ -225,98 +231,109 @@ The demo application consists of two services:
 ### Prepare The Application ###
 
 1. Clone this project from GitHub:
-  ```
-  git clone https://github.com/kwanwan/Helidon-MP-Coherence-Demo
-  ```
 
-2.  After cloning the project, change directory to the project folder, for example
-  ```
-  cd projects
-  ```
+    ```
+    git clone https://github.com/kwanwan/Helidon-MP-Coherence-Demo
+    ```
 
-  You should find two Maven projects in this folder:
-  ```
-  coherence-helidon-mp-rest
-  coherence-helidon-mp-ui
-  ```
+2.  After cloning the project, change directory to the project folder, for example:
 
-  We need to build each of these separately.
+    ```
+    cd projects
+    ```
+
+    You should find two Maven projects in this folder:
+
+    ```
+    coherence-helidon-mp-rest
+    coherence-helidon-mp-ui
+    ```
+
+    We need to build each of these separately.
 
 ### Building and Starting the Helidon MP Coherence REST Service ###
 
 We will use Maven to build the Helidon services.
 
 1. Change directory to the `coherence-helidon-mp-rest` folder.
-  ```
-  cd coherence-helidon-mp-rest
-  ```
+
+    ```
+    cd coherence-helidon-mp-rest
+    ```
 
 2. Copy the Coherence library `coherence.jar` to the `localjar` folder of the project - you should have the location to the jar file from your Coherence installation/configuration step.
-  ```
-  cp $COHERENCE_HOME/lib/coherence.jar localjars/
-  ```
-3. Run the Maven command `mvn` to add the `coherence.jar` to the your local Maven repository.
-  ```
-  mvn install:install-file -Dfile=/home/opc/coherence-helidon-mp-rest/localjars/coherence.jar \
-  -DgroupId=coherence -DartifactId=coherence -Dversion=12.2.1.0 -Dpackaging=jar
-  ```
 
-  You should see the BUILD SUCCESS message for installing the library similar to below:
-  ```
-  [INFO]
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Building helidon-coh-mp 1.0-SNAPSHOT
-  [INFO] ------------------------------------------------------------------------
-  [INFO]
-  [INFO] --- maven-install-plugin:2.4:install-file (default-cli) @ helidon-coh-mp ---
-  [INFO] Installing /home/opc/coherence-helidon-mp-rest/localjars/coherence.jar to /home/opc/.m2/repository/coherence/coherence/12.2.1.0/coherence-12.2.1.0.jar
-  [INFO] Installing /var/folders/y7/f7lcynss0r35nnrpdxt3fd880000gn/T/mvninstall5079648611806531303.pom to /home/opc/.m2/repository/coherence/coherence/12.2.1.0/coherence-12.2.1.0.pom
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Total time: 5.591 s
-  [INFO] Finished at: 2020-04-20T15:00:34+08:00
-  [INFO] Final Memory: 13M/363M
-  [INFO] ------------------------------------------------------------------------
-  ```
+    ```
+    cp $COHERENCE_HOME/lib/coherence.jar localjars/
+    ```
+3. Run the Maven command `mvn` to add the `coherence.jar` to the your local Maven repository.
+
+    ```
+    mvn install:install-file -Dfile=/home/opc/coherence-helidon-mp-rest/localjars/coherence.jar \
+    -DgroupId=coherence -DartifactId=coherence -Dversion=12.2.1.0 -Dpackaging=jar
+    ```
+
+    You should see the BUILD SUCCESS message for installing the library similar to below:
+
+    ```
+    [INFO]
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Building helidon-coh-mp 1.0-SNAPSHOT
+    [INFO] ------------------------------------------------------------------------
+    [INFO]
+    [INFO] --- maven-install-plugin:2.4:install-file (default-cli) @ helidon-coh-mp ---
+    [INFO] Installing /home/opc/coherence-helidon-mp-rest/localjars/coherence.jar to /home/opc/.m2/repository/coherence/coherence/12.2.1.0/coherence-12.2.1.0.jar
+    [INFO] Installing /var/folders/y7/f7lcynss0r35nnrpdxt3fd880000gn/T/mvninstall5079648611806531303.pom to /home/opc/.m2/repository/coherence/coherence/12.2.1.0/coherence-12.2.1.0.pom
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time: 5.591 s
+    [INFO] Finished at: 2020-04-20T15:00:34+08:00
+    [INFO] Final Memory: 13M/363M
+    [INFO] ------------------------------------------------------------------------
+    ```
 
 4. While still in the `coherence-helidon-mp-rest` folder, we will build the project with the following Maven command:
-  ```
-  mvn package -DskipTests
-  ```
 
-  You should see the BUILD SUCCESS message similar to below:
+    ```
+    mvn package -DskipTests
+    ```
 
-  ```
-  [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-rest ---
-  [INFO] Building jar: /home/opc/coherence-helidon-mp-rest/target/coherence-helidon-mp-rest.jar
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Total time:  5.619 s
-  [INFO] Finished at: 2020-04-27T17:03:09+08:00
-  [INFO] ------------------------------------------------------------------------
-  ```
+    You should see the BUILD SUCCESS message similar to below:
+
+    ```
+    [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-rest ---
+    [INFO] Building jar: /home/opc/coherence-helidon-mp-rest/target/coherence-helidon-mp-rest.jar
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  5.619 s
+    [INFO] Finished at: 2020-04-27T17:03:09+08:00
+    [INFO] ------------------------------------------------------------------------
+    ```
 
 5. Copy the 2 Coherence config files to the target folder - you have previously obtained the Coherence config files during the configuration of your coherence cluster. These files are also available under the config directory of this repository. Assuming you're inside the `coherence-helidon-mp-rest` folder:
-  ```
-  cp ../../config/example-config.xml target/
-  cp ../../config/tangosol-coherence-override.xml target/
-   ```
+
+    ```
+    cp ../../config/example-config.xml target/
+    cp ../../config/tangosol-coherence-override.xml target/
+    ```
 
 6. Starting the Helidon MP Coherence REST Microservice.
-  ```
-  cd target
-  java -jar -Dcoherence.distributed.localstorage=false -Dtangosol.coherence.override=./tangosol-coherence-override.xml coherence-helidon-mp-rest.jar
-  ```
 
-  If successful, you should see the service available at port 8082.
-  ```
-  2020.04.27 17:11:55 INFO io.helidon.common.HelidonFeatures Thread[main,5,main]: Helidon MP 2.0.0-M2 features: [CDI, Config, FaultTolerance, Health, JAX-RS, Metrics, Security, Server, Tracing]
-  http://localhost:8082/coherence
-  ```
+    ```
+    cd target
+    java -jar -Dcoherence.distributed.localstorage=false -Dtangosol.coherence.override=./tangosol-coherence-override.xml coherence-helidon-mp-rest.jar
+    ```
 
-  Your Helidon REST Microservice is now up and running.
+    If successful, you should see the service available at port 8082.
+
+    ```
+    2020.04.27 17:11:55 INFO io.helidon.common.HelidonFeatures Thread[main,5,main]: Helidon MP 2.0.0-M2 features: [CDI, Config, FaultTolerance, Health, JAX-RS, Metrics, Security, Server, Tracing]
+    http://localhost:8082/coherence
+    ```
+
+    Your Helidon REST Microservice is now up and running.
 
 
 ### Building and Starting The Helidon MP Coherence UI Service ###
@@ -324,41 +341,46 @@ We will use Maven to build the Helidon services.
 The steps for building and starting the frontend Microservice is simlar to the REST service above. We will use Maven to build the service.
 
 1. Change directory to the `coherence-helidon-mp-ui` folder.
-  ```
-  cd coherence-helidon-mp-ui
-  ```
+
+    ```
+    cd coherence-helidon-mp-ui
+    ```
 
 2. We will build the project with the following Maven command:
-  ```
-  mvn package -DskipTests
-  ```
+
+    ```
+    mvn package -DskipTests
+    ```
 
   You should see the BUILD SUCCESS Message.
-  ```
-  [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-ui ---
-  [INFO] Building jar: /home/opc/coherence-helidon-mp-ui/target/coherence-helidon-mp-ui.jar
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
-  [INFO] Total time:  4.979 s
-  [INFO] Finished at: 2020-04-27T17:25:08+08:00
-  [INFO] ------------------------------------------------------------------------
-  ```
+
+    ```
+    [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-ui ---
+    [INFO] Building jar: /home/opc/coherence-helidon-mp-ui/target/coherence-helidon-mp-ui.jar
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  4.979 s
+    [INFO] Finished at: 2020-04-27T17:25:08+08:00
+    [INFO] ------------------------------------------------------------------------
+    ```
 
 3. Starting the Helidon MP Coherence REST Microservice.
-  ```
-  cd target
-  java -jar coherence-helidon-mp-ui.jar
-  ```
 
-  If successful, you should see the service available at port 8080.
-  ```
-  INFO: Server initialized on http://localhost:8080 (and all other host addresses) in 3460 milliseconds.
-  Start server: 318
-  Endpoint available at http://localhost:8080/cachemap
-  ```
+    ```
+    cd target
+    java -jar coherence-helidon-mp-ui.jar
+    ```
 
-  Your Helidon UI Microservice is now up and running.
+    If successful, you should see the service available at port 8080.
+
+    ```
+    INFO: Server initialized on http://localhost:8080 (and all other host addresses) in 3460 milliseconds.
+    Start server: 318
+    Endpoint available at http://localhost:8080/cachemap
+    ```
+
+    Your Helidon UI Microservice is now up and running.
 
 
 ### Testing The Demo Application ###
@@ -368,40 +390,42 @@ In this sample application you can upload new entries to the cache as key value 
 The content of the cache will be refreshed inside a table at the bottom of the page after each action. However, if the table is not refreshed automatically, please click on the **Display Cache** button to refresh it manually.
 
 1. From a browser, run the frontend application by loading the cachemap.html file using the following URL:
-  ```
-  http://localhost:8080/cachemap/cachemap.html
-  ```
+
+    ```
+    http://localhost:8080/cachemap/cachemap.html
+    ```
 
 2. Display the cache by clicking on **Display Cache**.
 
-  ![alt text](images/image02.png)
+    ![alt text](images/image02.png)
 
-  You should see the entry you previously added to the cache through the command-line tool. This invokes the Coherence **get()** API to retrieve the entries.
+    You should see the entry you previously added to the cache through the command-line tool. This invokes the Coherence **get()** API to retrieve the entries.
 
-  ![alt text](images/image03.png)
+    ![alt text](images/image03.png)
 
-  When the **Display Cache** button is clicked, it makes a AJAX call to the REST Microservice. The REST Microservice will instantiate a Coherence session and joins the running `demo` cluster as member 3. You should see output in the first cache server instance you started using the **DefaultCacheServer** class similar to below:
-  ```
-  2020-04-27 17:40:10.688/60.004 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=DistributedCache, member=2): Member 3 joined Service DistributedCache with senior member 1
-  ```
+    When the **Display Cache** button is clicked, it makes a AJAX call to the REST Microservice. The REST Microservice will instantiate a Coherence session and joins the running `demo` cluster as member 3. You should see output in the first cache server instance you started using the **DefaultCacheServer** class similar to below:
+
+    ```
+    2020-04-27 17:40:10.688/60.004 Oracle Coherence GE 12.2.1.3.0 <D5> (thread=DistributedCache, member=2): Member 3 joined Service DistributedCache with senior member 1
+    ```
 
 3. Try uploading a new entry by entering the key value pair and then click on **Add Entry**. This invokes the Coherence **put()** API to upload the entry.
 
-  ![alt text](images/image04.png)
+    ![alt text](images/image04.png)
 
-  The cache content will be displayed at the bottom of the page after a successful upload.
+    The cache content will be displayed at the bottom of the page after a successful upload.
 
-  ![alt text](images/image05.png)
+    ![alt text](images/image05.png)
 
-  Click **Return**
+    Click **Return**
 
 4. Now try deleting a cache entry by entering the key of an existing entry and click on **Delete Entry**. This invokes the Coherence **remove()** API to delete an entry.
 
-  ![alt text](images/image06.png)
+    ![alt text](images/image06.png)
 
-  Again, if successful, the cache content will be refreshed.
+    Again, if successful, the cache content will be refreshed.
 
-  ![alt text](images/image07.png)
+    ![alt text](images/image07.png)
 
 
 ### Verify The Demo Cache ###
@@ -417,14 +441,16 @@ To verify the cache:
 1. Go to the terminal of your cache factory command-line tool. You should still have this opened.
 
 2. At the command-line tool command prompt, retrieve the contents of the cache using the list command.
-  ```
-  list
-  ```
+
+    ```
+    list
+    ```
 
 3. The content of the cache should be the same as displayed in the Helidon frontend service.
-  ```
-  Map (demo): list
-  k2 = Bye!
-  ```
+
+    ```
+    Map (demo): list
+    k2 = Bye!
+    ```
 
 ## Congratulation - You have successful completed the demo !! ##
