@@ -25,13 +25,17 @@ To run the demonstration application, you must have the following software insta
 Ensure the following environment variable is set in your configuration:
 
 1. JAVA_HOME - This variable must point to the location of the JDK version supported by the Oracle Coherence version that you use. Ensure that the path is set accordingly:
-  ```
-  export PATH=$JAVA_HOME/bin:$PATH
-  ```
+
+    ```
+    export PATH=$JAVA_HOME/bin:$PATH
+    ```
+
 2. COHERENCE_HOME - This variable must point to the Coherence directory of your Coherence installation. This is required for starting the Coherence servers.
-  ```
-  export COHERENCE_HOME=/opt/Oracle/Middleware/Oracle_Home/Coherence
-  ```
+
+    ```
+    export COHERENCE_HOME=/opt/Oracle/Middleware/Oracle_Home/Coherence
+    ```
+
 
 ## Configure and Start a Cluster ##
 
@@ -117,7 +121,7 @@ But real world scenarios, you will need to replace `address` with values that ar
 
 ### Start The Coherence Cache Server ###
 
-Before you start a cache server, you need to download the [`example-config.xml`](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/example-config.xml) and [`tangosol-coherence-override.xml`](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/tangosol-coherence-override.xml). into a working directory or copy and paste from above.
+Before you start a cache server, you need to download the [`example-config.xml`](https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo/blob/master/config/example-config.xml) and [`tangosol-coherence-override.xml`](config/tangosol-coherence-override.xml). into a working directory or copy and paste from above.
 
 From a command prompt, start a cache server instance in the same directory where the `example-config.xml` and `tangosol-coherence-override.xml` configuration files are downloaded; using the DefaultCacheServer class and include the location of the `coherence.jar` library as a Java -cp option.
 
@@ -352,18 +356,18 @@ The steps for building and starting the frontend Microservice is simlar to the R
     mvn package -DskipTests
     ```
 
-  You should see the BUILD SUCCESS Message.
+    You should see the BUILD SUCCESS Message.
 
-    ```
-    [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-ui ---
-    [INFO] Building jar: /home/opc/coherence-helidon-mp-ui/target/coherence-helidon-mp-ui.jar
-    [INFO] ------------------------------------------------------------------------
-    [INFO] BUILD SUCCESS
-    [INFO] ------------------------------------------------------------------------
-    [INFO] Total time:  4.979 s
-    [INFO] Finished at: 2020-04-27T17:25:08+08:00
-    [INFO] ------------------------------------------------------------------------
-    ```
+      ```
+      [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ coherence-helidon-mp-ui ---
+      [INFO] Building jar: /home/opc/coherence-helidon-mp-ui/target/coherence-helidon-mp-ui.jar
+      [INFO] ------------------------------------------------------------------------
+      [INFO] BUILD SUCCESS
+      [INFO] ------------------------------------------------------------------------
+      [INFO] Total time:  4.979 s
+      [INFO] Finished at: 2020-04-27T17:25:08+08:00
+      [INFO] ------------------------------------------------------------------------
+      ```
 
 3. Starting the Helidon MP Coherence REST Microservice.
 
