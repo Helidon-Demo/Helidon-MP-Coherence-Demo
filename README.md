@@ -237,7 +237,7 @@ The demo application consists of two services:
 1. Clone this project from GitHub:
 
     ```
-    git clone https://github.com/kwanwan/Helidon-MP-Coherence-Demo
+    git clone https://github.com/Helidon-Demo/Helidon-MP-Coherence-Demo
     ```
 
 2.  After cloning the project, change directory to the project folder, for example:
@@ -396,7 +396,7 @@ The content of the cache will be refreshed inside a table at the bottom of the p
 1. From a browser, run the frontend application by loading the cachemap.html file using the following URL:
 
     ```
-    http://localhost:8080/cachemap/cachemap.html
+    http://localhost:8080/cachemap.html
     ```
 
 2. Display the cache by clicking on **Display Cache**.
